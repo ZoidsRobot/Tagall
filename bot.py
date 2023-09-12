@@ -19,7 +19,6 @@ api_hash = os.environ.get("API_HASH", "a92aed7d74654a563af4b07efbcd88e9")
 bot_token = os.environ.get("TOKEN", "6132329564:AAEJBoyXwP9eipKIQAxT7yQHf39HzyhV_5A")
 client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 
-
 #worker
 moment_worker = []
 
@@ -29,6 +28,16 @@ async def cancel(event):
   global moment_worker
   moment_worker.remove(event.chat_id)
 
+#start
+
+                   
+
+#help
+
+
+#Wah bhaiya full ignorebazi
+
+#bsdk credit de dena verna maa chod dege
 
 #tag
 @client.on(events.NewMessage(pattern="^/tag ?(.*)"))
