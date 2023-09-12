@@ -30,7 +30,7 @@ async def cancel(event):
 
 #start
 #tag
-@client.on(events.NewMessage(pattern="^/tag ?(.*)"))
+@client.on(events.NewMessage(pattern="^/all ?(.*)"))
 async def mentionall(event):
   global moment_worker
   if event.is_private:
