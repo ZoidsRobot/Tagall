@@ -23,123 +23,79 @@ client = TelegramClient('client', api_id, api_hash).start(bot_token=bot_token)
 moment_worker = []
 
 #cancel
-
-#worker
-moment_worker = []
-
-#cancel
 @client.on(events.NewMessage(pattern='^(?i)/cancel'))
 async def cancel(event):
   global moment_worker
   moment_worker.remove(event.chat_id)
-    
-@client.on(events.NewMessage(pattern="^/tagall|@all|/all ?(.*)"))
+
+#start
+
+#Wah bhaiya full ignorebazi
+
+#bsdk credit de dena verna maa chod dege
+
+#tag
+@client.on(events.NewMessage(pattern="^/tag ?(.*)"))
 async def mentionall(event):
-    chat_id = event.chat_id
-    if event.is_private:
-        return await event.respond("__Perintah ini hanya digunakan dalam grup dan channel.__*")
-
-    is_admin = False
-    try:
-        partici_ = await client(GetParticipantRequest(
-            event.chat_id,
-            event.sender_id
-        ))
-    except UserNotParticipantError:
-        is_admin = False
-    else:
-        if (
-                isinstance(
-                    partici_.participant,
-                    (
-                            ChannelParticipantAdmin,
-                            ChannelParticipantCreator
-                    )
-                )
-        ):
-            is_admin = True
-    if not is_admin:
-        return await event.reply("__Hanya admin yang dapat menjalankan perintah ini...__")
-
-    if event.pattern_match.group(1) and event.is_reply:
-        return await event.reply("__Berikan beberapa teks atau balas pesan..__")
-    elif event.pattern_match.group(1):
-        mode = "text_on_cmd"
-        msg = event.pattern_match.group(1)
-    elif event.is_reply:
-        mode = "text_on_reply"
-        msg = await event.get_reply_message()
-        if msg == None:
-            return await event.respond(
-                "Saya tidak bisa menyebut anggota untuk pesan lama! (pesan yang dikirim sebelum saya ditambahkan ke grup)")
-    else:
-        return await event.reply("__Berikan beberapa teks atau balas pesan..__")
-
-    spam_chats.append(chat_id)
+  global moment_worker
+  if event.is_private:
+    return await event.reply("Use This In Channel or Group!")
+  
+  admins = []
+  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+    admins.append(admin.id)
+  if not event.sender_id in admins:
+    return await event.reply("Only Admin can use it [😌](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg).")
+  
+  if event.pattern_match.group(1):
+    mode = "text_on_cmd"
+    msg = event.pattern_match.group(1)
+  elif event.reply_to_msg_id:
+    mode = "text_on_reply"
+    msg = event.reply_to_msg_id
+    if msg == None:
+        return await event.reply("I can't Mention Members for Old Post!")
+  elif event.pattern_match.group(1) and event.reply_to_msg_id:
+    return await event.reply("Give me can an Argument. Ex: `/tag Hey, Where are you`")
+  else:
+    return await event.reply("Reply to Message or Give Some Text To Mention!")
+    
+  if mode == "text_on_cmd":
+    moment_worker.append(event.chat_id)
     usrnum = 0
-    usrtxt = ''
-    async for usr in client.iter_participants(chat_id):
-        if not chat_id in spam_chats:
-            break
-        usrnum += 1
-        usrtxt += f"🫦 [{usr.first_name}](tg://user?id={usr.id})\n"
-        if usrnum == 5:
-            if mode == "text_on_cmd":
-                txt = f"{msg}\n\n{usrtxt}"
-                await client.send_message(chat_id, txt)
-            elif mode == "text_on_reply":
-                await msg.reply(usrtxt)
-            await asyncio.sleep(2)
-            usrnum = 0
-            usrtxt = ''
-    try:
-        spam_chats.remove(chat_id)
-    except:
-        pass
-
-
-@client.on(events.NewMessage(pattern="^/cancel$"))
-async def cancel_spam(event):
-    is_admin = False
-    try:
-        partici_ = await client(GetParticipantRequest(
-            event.chat_id,
-            event.sender_id
-        ))
-    except UserNotParticipantError:
-        is_admin = False
-    else:
-        if (
-                isinstance(
-                    partici_.participant,
-                    (
-                            ChannelParticipantAdmin,
-                            ChannelParticipantCreator
-                    )
-                )
-        ):
-            is_admin = True
-    if not is_admin:
-        return await event.reply("__Hanya admin yang dapat menjalankan perintah ini...__")
-    if not event.chat_id in spam_chats:
-        return await event.reply("__Tidak ada mention!__")
-    else:
-        try:
-            spam_chats.remove(event.chat_id)
-        except:
-            pass
-        return await event.respond("__Dihentikan!__")
-
-
-__mod_name__ = "ᴛᴀɢ-ᴀʟʟ"
-__help__ = """
-──「 ᴛᴀɢ-ᴀʟʟ 」──
-
-ZoidsRobot Can Be a Mention Bot for your group.
-
-Only admins can tag all.  here is a list of commands
-
-❂ /tagall or @all (membalas pesan atau menambahkan pesan lain) Untuk menyebutkan semua anggota di grup Anda, tanpa kecuali.
-❂ /cancel untuk membatalkan mention.
-"""
+    usrtxt = ""
+    async for usr in client.iter_participants(event.chat_id):
+      usrnum += 1
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      if event.chat_id not in moment_worker:
+        await event.respond("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
+        return
+      if usrnum == 10:
+        await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+        await asyncio.sleep(2)
+        usrnum = 0
+        usrtxt = ""
         
+  
+  if mode == "text_on_reply":
+    moment_worker.append(event.chat_id)
+ 
+    usrnum = 0
+    usrtxt = ""
+    async for usr in client.iter_participants(event.chat_id):
+      usrnum += 1
+      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      if event.chat_id not in moment_worker:
+        await event.reply("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
+        return
+      if usrnum == 10:
+        await client.send_message(event.chat_id, usrtxt, reply_to=msg)
+        await asyncio.sleep(2)
+        usrnum = 0
+        usrtxt = ""
+
+
+
+print("~~~~Started~~~~~")
+print("🔥🥂Need Help Dm @ItsAttitudeking")
+client.run_until_disconnected()
