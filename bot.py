@@ -29,6 +29,31 @@ async def cancel(event):
   moment_worker.remove(event.chat_id)
 
 #start
+@client.on(events.NewMessage(pattern="^/start$"))
+async def start(event):
+  await event.reply("Hey [🤗](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)\nWelcome🔥🥂\n━━━━━━━━━━━━━━━━━━━━\n┏━━━━━━━━━━━━━━━━━┓\n┣★I m Highly advanced Tag Member Bot.\n┣★I can tag  members in group as well as in Channel.\n┣★Need Help hit ☛ [★𝐎𝐀𝐍★](Https://t.me/OAN_Support)\n┗━━━━━━━━━━━━━━━━━┛\n━━━━━━━━━━━━━━━━━━━━",
+                   buttons=(
+                      [Button.url('🔥ᴀᴅᴅ ᴛᴀɢ ᴍᴇᴍʙᴇʀ ᴛᴏ ɢʀᴏᴜᴩ🔥', 'http://t.me/Tag_member_bot?startgroup=true')],
+                      [Button.url('⚜ᴏᴡɴᴇʀ⚜', 'Https://t.me/ItsAttitudeking')],
+                      [Button.url('🛎ꜱᴜᴩᴩᴏʀᴛ', 'https://t.me/OAN_Support'),
+                      Button.url('ᴜᴩᴅᴀᴛᴇ🔊', 'https://t.me/Attitude_Network')],
+                     [Button.url('⚒ʀᴇᴩᴏ⚒', 'https://github.com/ItsAttitudeking/Tag_member')]
+                     ),
+                    link_preview=False
+                   )
+
+#help
+@client.on(events.NewMessage(pattern="^/help$"))
+async def help(event):
+  helptext = "**[🔥](https://te.legra.ph/file/8d6307fcac08120cb9380.jpg), ᴛᴀɢ ᴍᴇᴍʙᴇʀ ʙᴏᴛ'ꜱ ʜᴇʟᴩ ᴍᴇɴᴜ👑**\n\nCommand: /tag \n You can use this command with text you want to tell others. \n`Example: /tag Good morning!` \nYou can use this command as an answer. any message Bot will tag users to replied message"
+  await event.reply(helptext,
+                    buttons=(
+                      [Button.url('⚜ᴏᴡɴᴇʀ⚜', 'https://t.me/ItsAttitudeking'),
+                      Button.url('🛎ꜱᴜᴩᴩᴏʀᴛ', 'https://t.me/OAN_Support')]
+                      [Button.url('⚒ʀᴇᴩᴏ⚒', 'https://github.com/ItsAttitudeking/Tag_member')]
+                     ),
+                    link_preview=False
+                   )
 
 #Wah bhaiya full ignorebazi
 
