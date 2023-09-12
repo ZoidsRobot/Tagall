@@ -29,7 +29,7 @@ async def cancel(event):
   moment_worker.remove(event.chat_id)
 
 #tag
-@client.on(events.NewMessage(pattern="^/tagall|@all|/all ?(.*)"))
+@client.on(events.NewMessage(pattern="^/tag ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
     if event.is_private:
