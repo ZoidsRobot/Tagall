@@ -29,7 +29,7 @@ async def cancel(event):
   moment_worker.remove(event.chat_id)
 
 #start
-@client.on(events.NewMessage(pattern="^/start$"))
+@client.on(events.NewMessage(pattern="^/mstart$"))
 async def start(event):
   await event.reply("Hey [🤗](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)\nWelcome🔥🥂\n━━━━━━━━━━━━━━━━━━━━\n┏━━━━━━━━━━━━━━━━━┓\n┣★I m Highly advanced Tag Member Bot.\n┣★I can tag  members in group as well as in Channel.\n┣★Need Help hit ☛ [★𝐎𝐀𝐍★](Https://t.me/OAN_Support)\n┗━━━━━━━━━━━━━━━━━┛\n━━━━━━━━━━━━━━━━━━━━",
                    buttons=(
@@ -43,7 +43,7 @@ async def start(event):
                    )
 
 #help
-@client.on(events.NewMessage(pattern="^/help$"))
+@client.on(events.NewMessage(pattern="^/mhelp$"))
 async def help(event):
   helptext = "**[🔥](https://te.legra.ph/file/8d6307fcac08120cb9380.jpg), ᴛᴀɢ ᴍᴇᴍʙᴇʀ ʙᴏᴛ'ꜱ ʜᴇʟᴩ ᴍᴇɴᴜ👑**\n\nCommand: /tag \n You can use this command with text you want to tell others. \n`Example: /tag Good morning!` \nYou can use this command as an answer. any message Bot will tag users to replied message"
   await event.reply(helptext,
@@ -91,11 +91,11 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      usrtxt += f"🫦 [{usr.first_name}](tg://user?id={usr.id})\n"
       if event.chat_id not in moment_worker:
         await event.respond("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
         return
-      if usrnum == 10:
+      if usrnum == 5:
         await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
         await asyncio.sleep(2)
         usrnum = 0
@@ -109,11 +109,11 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      usrtxt += f"🫦 [{usr.first_name}](tg://user?id={usr.id})\n"
       if event.chat_id not in moment_worker:
         await event.reply("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
         return
-      if usrnum == 10:
+      if usrnum == 5:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)
         await asyncio.sleep(2)
         usrnum = 0
