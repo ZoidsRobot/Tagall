@@ -28,7 +28,7 @@ async def cancel(event):
   global moment_worker
   moment_worker.remove(event.chat_id)
 
-#start
+#tag
 @client.on(events.NewMessage(pattern="^/tagall|@all|/all ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
