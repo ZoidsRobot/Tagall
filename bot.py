@@ -61,12 +61,12 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      usrtxt += f"🫦 [{usr.first_name}](tg://user?id={usr.id})\n"
       if event.chat_id not in moment_worker:
         await event.respond("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
         return
-      if usrnum == 10:
-        await client.send_message(event.chat_id, f"{usrtxt}\n\n{msg}")
+      if usrnum == 5:
+        await client.send_message(event.chat_id, f"{msg}\n\n{usrtxt}")
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""
@@ -79,11 +79,11 @@ async def mentionall(event):
     usrtxt = ""
     async for usr in client.iter_participants(event.chat_id):
       usrnum += 1
-      usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+      usrtxt += usrtxt += f"🫦 [{usr.first_name}](tg://user?id={usr.id})\n"
       if event.chat_id not in moment_worker:
         await event.reply("Ok tagger stopped [🔇](https://telegra.ph/file/97da0b711a6ba2f4f4482.jpg)")
         return
-      if usrnum == 10:
+      if usrnum == 5:
         await client.send_message(event.chat_id, usrtxt, reply_to=msg)
         await asyncio.sleep(2)
         usrnum = 0
